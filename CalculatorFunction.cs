@@ -14,24 +14,25 @@ namespace CalculatorApp
         //For Replacing the existing operator with the new operator
         public bool IsLastCharOperator(string value)
         {
+            // Check for Null or Empty String
             if (string.IsNullOrEmpty(value)) return false;
-
+            //Trim the Input
             string trimExpression = value.Trim();
+            //Get the Last Character
             char lastChar = trimExpression[trimExpression.Length - 1];
-
+            //Check if the Last Character is an Operator
             return lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/';
         }
-
-        //Trim or Remove the spaces
+        //Remove the spaces and commas
         public string TrimExpression(string displayValue)
         {
             displayValue = displayValue.Replace(",","");
             return displayValue.Replace(" ", "");
         }
-
-        //Solving the expression
+        //Evaluate the expression
         public string solveExpression(string trimExpression)
         {
+            //Check for Division by 0
             if (trimExpression.Contains("/0"))
             {
                 return "Cannot be divided by 0";
@@ -39,10 +40,10 @@ namespace CalculatorApp
             try
             {
                 DataTable table = new DataTable();
-                var result = table.Compute(trimExpression, string.Empty);
+                var result = table.Compute(trimExpression, string.Empty); //solve the expression
                 return result.ToString();
             }
-            catch (OverflowException)
+            catch (OverflowException) //If the result exceeds the maximum allowable value for a numeric type
             {
                 return "Too large to compute";
             }
